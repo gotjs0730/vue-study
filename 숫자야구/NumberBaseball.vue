@@ -28,7 +28,7 @@ export default {
             e.preventDefault();
             this.tries.push({
                 try:this.value,
-                result:'홈런'
+                result:'홈런입니다'
             });
             this.value = '';
             this.$refs.answer.focus();
