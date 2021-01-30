@@ -1,0 +1,4 @@
+# vue-study
+node_modules
+dist/*
+*.log

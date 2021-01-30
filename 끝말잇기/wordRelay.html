@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>끝말잇기</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <word-relay start-word="제로초"></word-relay> <!--<word-relay /> : 이렇게 바로 닫을수도 있음-->
+        <word-relay start-word="초밥"></word-relay> <!---html에서는 케밥케이스를 쓰고 js에서는 카멜표기법을 써야한다.-->
+        <word-relay start-word="바보"></word-relay>
+    </div>
+    <script>
+    //컴포넌트는 중복을 없애고 각자 독립된 데이터를 갖는다.
+    //전역 컴포넌트-글로벌 컴포넌트 /지역 컴포넌트-로컬 컴포넌트
+        Vue.component('word-relay',{
+            template:` <!--quote가 아니라 backtick임-->
+            <div> <!--템플릿은 무조건 하나의 태그로 감싸주어야 한다. template을 써도 됨.-->
+                <div>
+                    {{word}}
+                </div>
+                <form v-on:submit="onSubmitForm">
+                    <input type="text" v-model="value" ref="answer">
+                    <button type="submit">입력</button>
+                </form>
+                <div id="result">{{result}}</div>
+            </div>
+            `,
+            props:['startWord'],
+            data(){
+                return{ //여러번 써야하기 떄문에 데이터를 함수로 만들어야 한다. 
+                word: this.startWord,
+                result:'',
+                value:'',
+            };
+            },
+            methods:{
+                onSubmitForm(e){
+                    e.preventDefault();
+                    if(this.word[this.word.length - 1] === this.value[0]){
+                        this.result='딩동댕';
+                        this.word = this.value;
+                        this.value='';
+                        this.$refs.answer.focus();
+                    }else{
+                        this.result="땡";
+                        this.value='';
+                        this.$refs.answer.focus();
+                    }
+                }
+
+            }
+        })
+    </script>
+    <script>
+        const app = new Vue({ //vue에 태그 통제권을 넘김
+            el:'#root',
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구구단</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <div>{{first}} 곱하기 {{second}} ?</div> <!--{{}} 를 쓰면 data를 화면에 렌더링 할 수 있게 한다.-->
+        <form v-on:submit="onSubmitForm">
+            <input type="number" v-model="value" ref="answer"> <!--v-model : data value와 input태그를 연결시킴-->
+            <button type="submit">입력</button>
+            <!-- <div>{{value}}</div> -->
+        </form>
+        <div id="result">{{result}}</div>
+    </div>
+    <script>
+        const app = new Vue({
+            el:'#root',
+            data:{
+                first:Math.ceil(Math.random()*9),
+                second:Math.ceil(Math.random()*9),
+                value:'',
+                result:'',
+            },
+            methods:{
+                onSubmitForm(e){
+                    e.preventDefault();
+                    if(this.first * this.second === parseInt(this.value)){
+                        this.result ='정답';
+                        this.first = Math.ceil(Math.random()*9); //Math.ceil() = 반올림하는 함수
+                        this.second = Math.ceil(Math.random()*9);
+                        this.value = '';
+                        this.$refs.answer.focus(); //직접 태그에 접근해야 할 때 ref를 쓴다. $refs 로 접근한다.뒤는 지정한 이름
+                    }else{
+                        this.result = '땡!';
+                        this.value = '';
+                        this.$refs.answer.focus();
+                    }
+                }
+            },
+        });
+    </script>
+</body>
+</html>
